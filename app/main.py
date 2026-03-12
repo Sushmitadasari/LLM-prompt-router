@@ -1,5 +1,7 @@
-from fastapi import FastAPI, HTTPException
+from dotenv import load_dotenv
+load_dotenv()
 
+from fastapi import FastAPI, HTTPException
 from .models import ChatRequest, ChatResponse
 from .classifier import classify_intent
 from .router import route_and_respond

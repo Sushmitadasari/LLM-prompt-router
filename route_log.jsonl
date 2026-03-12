@@ -1,2 +1,4 @@
 {"intent":"code","confidence":0.91,"user_message":"how do i sort a list in python","final_response":"Use Python's sorted() function..."}
-{"intent":"career","confidence":0.87,"user_message":"I'm preparing for a job interview","final_response":"First clarify the role you're targeting..."}
+{"intent":"career","confidence":0.87,"user_message":"I'm preparing for a job interview","final_response":"First clarify the role you're targeting..."}{"intent": "unclear", "confidence": 0.0, "user_message": "how do i sort a list in python?", "final_response": "Could you clarify your request? Are you asking for help with coding, data analysis, writing improvement, or career advice?"}
+{"intent": "unclear", "confidence": 0.0, "user_message": "how do i sort a list in python?", "final_response": "Could you clarify your request? Are you asking for help with coding, data analysis, writing improvement, or career advice?"}
+{"intent": "unclear", "confidence": 0.0, "user_message": "how do i sort a list in python?", "final_response": "Could you clarify your request? Are you asking for help with coding, data analysis, writing improvement, or career advice?"}

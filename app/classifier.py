@@ -1,20 +1,56 @@
 import json
-from pathlib import Path
+import os
+from openai import OpenAI
 
-LOG_FILE = Path("route_log.jsonl")
+client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+
+MODEL = os.getenv("OPENAI_MODEL", "gpt-4o-mini")
 
 
-def log_route(intent, confidence, user_message, final_response):
-    """
-    Append routing information to JSONL log file.
-    """
+CLASSIFIER_PROMPT = """
+Your task is to classify the user's intent.
 
-    entry = {
-        "intent": intent,
-        "confidence": confidence,
-        "user_message": user_message,
-        "final_response": final_response
-    }
+Choose ONE label from the following list:
+code, data, writing, career, unclear
 
-    with open(LOG_FILE, "a") as f:
-        f.write(json.dumps(entry) + "\n")
+Respond ONLY with a JSON object using this schema:
+
+{
+"intent": "label",
+"confidence": float_between_0_and_1
+}
+
+Do not include explanations or text outside JSON.
+"""
+
+
+def classify_intent(message: str) -> dict:
+
+    try:
+
+        response = client.chat.completions.create(
+            model=MODEL,
+            messages=[
+                {"role": "system", "content": CLASSIFIER_PROMPT},
+                {"role": "user", "content": message}
+            ],
+            temperature=0
+        )
+
+        content = response.choices[0].message.content.strip()
+
+        result = json.loads(content)
+
+        intent = result.get("intent", "unclear")
+        confidence = float(result.get("confidence", 0.0))
+
+        return {
+            "intent": intent,
+            "confidence": confidence
+        }
+
+    except Exception:
+        return {
+            "intent": "unclear",
+            "confidence": 0.0
+        }
